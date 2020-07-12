@@ -1,0 +1,125 @@
+.filter-container {
+  position: relative;
+  width: 420px;
+  height: 200px;
+  border: 1px #999999 solid;
+
+  margin: 0 auto;
+  margin-top: 40px;
+  padding-bottom: 40px;
+  box-sizing: content-box;
+}
+
+.toggle-container {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  height: 50px;
+  letter-spacing: 1px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.search-tab {
+  width: 50%;
+
+  height: 100%;
+  line-height: 50px;
+  color: #000000;
+}
+
+.share-tab {
+  width: 50%;
+  height: 100%;
+
+  line-height: 50px;
+  color: #999999;
+}
+
+.search-make {
+  position: relative;
+  width: 180px;
+  margin: 0 auto;
+  margin-top: 10px;
+  height: auto;
+  border: 1px #999999 solid;
+  font-size: 12px;
+  text-align: left;
+  line-height: 30px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.make-flex {
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+}
+
+.search-model {
+  position: absolute;
+  width: 180px;
+  margin: 0 auto;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  height: 30px;
+  border: 1px #999999 solid;
+  font-size: 12px;
+  text-align: left;
+
+  line-height: 30px;
+
+  z-index: 8;
+  cursor: pointer;
+}
+
+.model-flex {
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+}
+
+.search-submit {
+  position: absolute;
+  width: 180px;
+  margin: 0 auto;
+  top: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  height: 30px;
+  border: 1px #000000 solid;
+  font-size: 12px;
+  text-align: center;
+  line-height: 30px;
+  /* background-color: #e7ff00; */
+
+  color: #000000;
+  cursor: pointer;
+}
+
+.drop-down-arrow {
+  padding-top: 13px;
+  width: 9px;
+  opacity: 0.8;
+}
+
+.drop-down-bg {
+  position: relative;
+  background-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  width: 170px;
+}

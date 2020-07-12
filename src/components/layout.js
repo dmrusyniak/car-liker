@@ -37,9 +37,9 @@ const Layout = ({ children }) => {
         </div>
       </div>
       <div className="nav">
-        <div className="nav-element-first">HOME</div>
-        <div className="nav-element">CARS</div>
-        <div className="nav-element">ABOUT</div>
+        <div className="nav-element-first">ONE</div>
+        <div className="nav-element">TWO</div>
+        <div className="nav-element">THREE</div>
       </div>
       <main>{children}</main>
     </div>
