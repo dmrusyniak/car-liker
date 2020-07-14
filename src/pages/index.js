@@ -25,7 +25,7 @@ function IndexPage(props) {
         if (ref.current && !ref.current.contains(event.target)) {
           setMakeMenu(false)
           setMakes(ogMakes)
-          console.log("uh oh")
+          console.log("uh oh , btw make is: ", make)
           if (testRef.current.value) {
             testRef.current.value = ""
           }
@@ -53,6 +53,8 @@ function IndexPage(props) {
 
   function openMake() {
     setMake("")
+    setMakes(ogMakes)
+    testRef.current.value = ""
     setMakeMenu(true)
   }
 
