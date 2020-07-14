@@ -61,11 +61,8 @@ function IndexPage(props) {
     setMakeMenu(true)
   }
 
-  console.log(ogMakes.includes(make))
-
   function makeAlfa(el) {
     setMake(el)
-    console.log("ref test: ", testRef.current)
     testRef.current.value = el
     setMakeMenu(false)
     setMakes(ogMakes)
@@ -80,11 +77,11 @@ function IndexPage(props) {
     console.log("inputchange")
     console.log("event.target.value: ", event.target.value)
     console.log(
-      "filter result: ",
-      makes.filter(word => word[0] === event.target.value[0])
+      "What I'm about to set makes to: ",
+      ogMakes.filter(word => word[0] === event.target.value[0])
     )
-    setMakes(makes.filter(word => word[0] === event.target.value[0]))
-    console.log("makes: ", makes)
+    setMakes(ogMakes.filter(word => word[0] === event.target.value[0]))
+    console.log("ok I set it officially: ", makes)
     if (event.target.value === "" || event.target.value === " ") {
       setMakes(ogMakes)
     }
