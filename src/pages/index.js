@@ -68,13 +68,15 @@ function IndexPage(props) {
     console.log("ref test: ", testRef.current)
     testRef.current.value = el
     setMakeMenu(false)
+    setMakes(ogMakes)
   }
 
   function handleInputChange(event) {
     event.preventDefault()
-    setMake(event.target.value)
+
     setMakes(ogMakes)
     setMakeMenu(true)
+    setMake(event.target.value)
     console.log("inputchange")
     console.log("event.target.value: ", event.target.value)
     console.log(
@@ -88,6 +90,7 @@ function IndexPage(props) {
     }
     if (ogMakes.includes(event.target.value)) {
       makeAlfa(event.target.value)
+      setMakes(ogMakes)
     }
   }
 
