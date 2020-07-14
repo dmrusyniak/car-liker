@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Link } from "gatsby"
-import "./index.css"
+import "./index.scss"
 import downArrow from "../images/drop-down-arrow.png"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
-const makes = ["AUDI", "BMW", "PORSCHE"]
+const ogMakes = ["ALFA ROMEO", "AUDI", "BMW", "PORSCHE"]
+const models = {
+  "ALFA ROMEO": { models: ["GUILIA", "BRERA"] },
+  AUDI: { models: ["S4", "RS4"] },
+  BMW: { models: ["M3", "M5"] },
+  PORSCHE: { models: ["911"] },
+}
 
 function IndexPage(props) {
   function useOutsideAlerter(ref) {
@@ -18,6 +24,9 @@ function IndexPage(props) {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target)) {
           setMakeMenu(false)
+          setMakes(ogMakes)
+          console.log("uh oh")
+          testRef.current.value = ""
         }
       }
 
@@ -31,12 +40,59 @@ function IndexPage(props) {
   }
 
   const wrapperRef = useRef(null)
+  const testRef = useRef()
+  const makeRef = useRef()
   useOutsideAlerter(wrapperRef)
 
+  const [makes, setMakes] = useState(ogMakes)
+  const [make, setMake] = useState("MAKE")
   const [makeMenu, setMakeMenu] = useState(false)
+  const [clearEvent, setClearEvent] = useState(false)
 
   function openMake() {
+    setMake("")
     setMakeMenu(true)
+  }
+
+  function makeAlfa(el) {
+    setMake(el)
+    console.log("ref test: ", testRef.current)
+    testRef.current.value = el
+    setMakeMenu(false)
+  }
+
+  function makeAudi() {
+    setMake("AUDI")
+    setMakeMenu(false)
+  }
+
+  function makeBMW() {
+    setMake("BMW")
+    setMakeMenu(false)
+  }
+
+  function makePorsche() {
+    setMake("PORSCHE")
+
+    setMakeMenu(false)
+  }
+
+  function handleInputChange(event) {
+    event.preventDefault()
+
+    setMakes(ogMakes)
+
+    console.log("inputchange")
+    console.log("event.target.value: ", event.target.value)
+    console.log(
+      "filter result: ",
+      makes.filter(word => word[0] === event.target.value[0])
+    )
+    setMakes(makes.filter(word => word[0] === event.target.value[0]))
+    console.log("makes: ", makes)
+    if (event.target.value === "") {
+      setMakes(ogMakes)
+    }
   }
 
   return (
@@ -47,22 +103,35 @@ function IndexPage(props) {
           <div className="search-tab">SEARCH</div>
           <div className="share-tab">SHARE</div>
         </div>
-        <div ref={wrapperRef}>
-          <div className="search-make" onClick={openMake}>
-            <div className="make-flex">
-              <div>MAKE</div>
+        <div>
+          <div
+            ref={wrapperRef}
+            className={make === "MAKE" ? "search-make" : "search-make-ready"}
+          >
+            <div onClick={openMake} className="make-flex">
+              <form>
+                <input
+                  type="text"
+                  placeholder={make}
+                  onChange={handleInputChange}
+                  ref={testRef}
+                  className="input"
+                ></input>
+              </form>
+
               <div className="drop-down-arrow">
                 <img src={downArrow}></img>
               </div>
             </div>
             <div className="drop-down-bg">
               {makeMenu ? (
-                <div>
-                  <div>ALFA ROMEO</div>
-                  <div>AUDI</div>
-                  <div>BMW</div>
-                  <div>PORSCHE</div>
-                </div>
+                makes.map((el, index) => (
+                  <div>
+                    <div onClick={() => makeAlfa(el)} className="make-item">
+                      {el}
+                    </div>
+                  </div>
+                ))
               ) : (
                 <div></div>
               )}
@@ -77,10 +146,18 @@ function IndexPage(props) {
             </div>
           </div>
         </div>
-        <div className="search-submit">SUBMIT</div>
+        <div
+          className={
+            make === "MAKE" || make === ""
+              ? "search-submit"
+              : "search-submit-ready"
+          }
+        >
+          SUBMIT
+        </div>
       </div>
       <div></div>
-      <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}></div>
+      {/* <div className="featured-divider"></div> */}
     </Layout>
   )
 }
