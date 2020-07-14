@@ -25,10 +25,10 @@ function IndexPage(props) {
         if (ref.current && !ref.current.contains(event.target)) {
           setMakeMenu(false)
           setMakes(ogMakes)
-          console.log("uh oh , btw make is: ", make)
-          if (testRef.current.value) {
-            testRef.current.value = ""
-          }
+
+          // if (testRef.current.value) {
+          //   testRef.current.value = ""
+          // }
         }
       }
 
@@ -52,11 +52,16 @@ function IndexPage(props) {
   const [clearEvent, setClearEvent] = useState(false)
 
   function openMake() {
-    setMake("")
+    // setMake("")
     setMakes(ogMakes)
-    testRef.current.value = ""
+    // testRef.current.value = ""
+    if (testRef.current.value) {
+      setMakes(makes.filter(word => word[0] === testRef.current.value[0]))
+    }
     setMakeMenu(true)
   }
+
+  console.log(ogMakes.includes(make))
 
   function makeAlfa(el) {
     setMake(el)
@@ -67,9 +72,9 @@ function IndexPage(props) {
 
   function handleInputChange(event) {
     event.preventDefault()
-
+    setMake(event.target.value)
     setMakes(ogMakes)
-
+    setMakeMenu(true)
     console.log("inputchange")
     console.log("event.target.value: ", event.target.value)
     console.log(
@@ -78,8 +83,17 @@ function IndexPage(props) {
     )
     setMakes(makes.filter(word => word[0] === event.target.value[0]))
     console.log("makes: ", makes)
-    if (event.target.value === "") {
+    if (event.target.value === "" || event.target.value === " ") {
       setMakes(ogMakes)
+    }
+    if (ogMakes.includes(event.target.value)) {
+      makeAlfa(event.target.value)
+    }
+  }
+
+  function handleSubmit() {
+    if (ogMakes.includes(make)) {
+      console.log("INITIATING DATABSE SEARCH FOR VEHICLES OF MAKE: ", make)
     }
   }
 
@@ -100,7 +114,7 @@ function IndexPage(props) {
               <form>
                 <input
                   type="text"
-                  placeholder={make}
+                  placeholder="MAKE"
                   onChange={handleInputChange}
                   ref={testRef}
                   className="input"
@@ -115,7 +129,11 @@ function IndexPage(props) {
               {makeMenu ? (
                 makes.map((el, index) => (
                   <div>
-                    <div onClick={() => makeAlfa(el)} className="make-item">
+                    <div
+                      key={index}
+                      onClick={() => makeAlfa(el)}
+                      className="make-item"
+                    >
                       {el}
                     </div>
                   </div>
@@ -135,10 +153,9 @@ function IndexPage(props) {
           </div>
         </div>
         <div
+          onClick={handleSubmit}
           className={
-            make === "MAKE" || make === ""
-              ? "search-submit"
-              : "search-submit-ready"
+            ogMakes.includes(make) ? "search-submit-ready" : "search-submit"
           }
         >
           SUBMIT
