@@ -26,7 +26,9 @@ function IndexPage(props) {
           setMakeMenu(false)
           setMakes(ogMakes)
           console.log("uh oh")
-          testRef.current.value = ""
+          if (testRef.current.value) {
+            testRef.current.value = ""
+          }
         }
       }
 
@@ -58,22 +60,6 @@ function IndexPage(props) {
     setMake(el)
     console.log("ref test: ", testRef.current)
     testRef.current.value = el
-    setMakeMenu(false)
-  }
-
-  function makeAudi() {
-    setMake("AUDI")
-    setMakeMenu(false)
-  }
-
-  function makeBMW() {
-    setMake("BMW")
-    setMakeMenu(false)
-  }
-
-  function makePorsche() {
-    setMake("PORSCHE")
-
     setMakeMenu(false)
   }
 
