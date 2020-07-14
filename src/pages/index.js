@@ -73,7 +73,7 @@ function IndexPage(props) {
 
   function handleInputChange(event) {
     event.preventDefault()
-
+    event.target.value = event.target.value.toUpperCase()
     setMakes(ogMakes)
     setMakeMenu(true)
     setMake(event.target.value)
