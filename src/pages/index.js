@@ -8,7 +8,7 @@ import Image from "../components/image"
 import SEO from "../components/seo"
 
 const ogMakes = ["ALFA ROMEO", "AUDI", "BMW", "PORSCHE"]
-const models = {
+const ogModels = {
   "ALFA ROMEO": { models: ["GUILIA", "BRERA"] },
   AUDI: { models: ["S4", "RS4"] },
   BMW: { models: ["M3", "M5"] },
@@ -49,7 +49,10 @@ function IndexPage(props) {
   const [makes, setMakes] = useState(ogMakes)
   const [make, setMake] = useState("MAKE")
   const [makeMenu, setMakeMenu] = useState(false)
-  const [clearEvent, setClearEvent] = useState(false)
+
+  const [models, setModels] = useState(ogMakes)
+  const [model, setModel] = useState("MODEL")
+  const [modelMenu, setModelMenu] = useState(false)
 
   function openMake() {
     // setMake("")
@@ -108,9 +111,10 @@ function IndexPage(props) {
     }
   }
 
-  function handleSubmit() {
+  function handleMakeSubmit() {
     if (ogMakes.includes(make)) {
       console.log("INITIATING DATABSE SEARCH FOR VEHICLES OF MAKE: ", make)
+      console.log("beep beep boop here is the result: ", ogModels[make].models)
     }
   }
 
@@ -170,7 +174,7 @@ function IndexPage(props) {
           </div>
         </div>
         <div
-          onClick={handleSubmit}
+          onClick={handleMakeSubmit}
           className={
             ogMakes.includes(make) ? "search-submit-ready" : "search-submit"
           }
