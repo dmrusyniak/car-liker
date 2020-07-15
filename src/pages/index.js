@@ -42,7 +42,9 @@ function IndexPage(props) {
   }
 
   const wrapperRef = useRef(null)
+  const wrapperRef2 = useRef(null)
   const testRef = useRef()
+  const testRef2 = useRef()
   const makeRef = useRef()
   useOutsideAlerter(wrapperRef)
 
@@ -56,12 +58,25 @@ function IndexPage(props) {
 
   function openMake() {
     // setMake("")
+
     setMakes(ogMakes)
     // testRef.current.value = ""
     if (testRef.current.value) {
       setMakes(makes.filter(word => word[0] === testRef.current.value[0]))
     }
     setMakeMenu(true)
+  }
+
+  function openModel() {
+    // setMake("")
+    if (ogModels[make]) {
+      setModels(ogModels[make].models)
+      setModelMenu(true)
+    }
+    // testRef.current.value = ""
+    // if (testRef.current.value) {
+    //   setMode(makes.filter(word => word[0] === testRef.current.value[0]))
+    // }
   }
 
   function search(el, array) {
@@ -79,6 +94,13 @@ function IndexPage(props) {
     testRef.current.value = el
     setMakeMenu(false)
     setMakes(ogMakes)
+  }
+
+  function makeBrera(el) {
+    setModel(el)
+    testRef2.current.value = el
+    setModelMenu(false)
+    setModels(ogMakes)
   }
 
   function handleInputChange(event) {
@@ -111,10 +133,41 @@ function IndexPage(props) {
     }
   }
 
+  function handleModelChange(event) {
+    event.preventDefault()
+    event.target.value = event.target.value.toUpperCase()
+    setModels(ogModels[make].models)
+    setModelMenu(true)
+    setModel(event.target.value)
+    console.log("inputchange")
+    console.log("event.target.value: ", event.target.value)
+    console.log(
+      "What I'm about to set makes to: ",
+      search(event.target.value, ogModels[make].models)
+    )
+    setModels(search(event.target.value, ogModels[make].models))
+    console.log("ok I set it officially: ", models)
+    if (event.target.value === "" || event.target.value === " ") {
+      setModels(ogModels[make].models)
+    }
+    if (!event.target.value.replace(/\s/g, "").length) {
+      setModels(ogModels[make].models)
+      console.log(
+        "string only contains whitespace (ie. spaces, tabs or line breaks)"
+      )
+    }
+
+    if (ogModels[make].models.includes(event.target.value)) {
+      makeBrera(event.target.value)
+      setModels([make].models)
+    }
+  }
+
   function handleMakeSubmit() {
     if (ogMakes.includes(make)) {
       console.log("INITIATING DATABSE SEARCH FOR VEHICLES OF MAKE: ", make)
       console.log("beep beep boop here is the result: ", ogModels[make].models)
+      setModels(ogModels[make].models)
     }
   }
 
@@ -165,12 +218,39 @@ function IndexPage(props) {
             </div>
           </div>
         </div>
-        <div className="search-model">
-          <div className="model-flex">
-            <div>MODEL</div>
+        <div
+          className={make === "MAKE" ? "search-model" : "search-model-ready"}
+        >
+          <div onClick={openModel} className="model-flex">
+            <form>
+              <input
+                type="text"
+                placeholder="MODEL"
+                onChange={handleModelChange}
+                ref={testRef2}
+                className="input"
+              ></input>
+            </form>
             <div className="drop-down-arrow">
               <img src={downArrow}></img>
             </div>
+          </div>
+          <div className="drop-down-bg">
+            {modelMenu && models ? (
+              models.map((el, index) => (
+                <div>
+                  <div
+                    key={index}
+                    onClick={() => makeBrera(el)}
+                    className="make-item"
+                  >
+                    {el}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
         <div

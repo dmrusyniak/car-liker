@@ -85,9 +85,28 @@
   top: 110px;
   left: 50%;
   transform: translateX(-50%);
-  color: #999999;
-  height: 30px;
-  border: 1px #999999 solid;
+  color: #000000;
+
+  border: 1px #999999 solid !important;
+  font-size: 12px;
+  text-align: left;
+
+  line-height: 30px;
+
+  z-index: 8;
+  cursor: pointer;
+}
+
+.search-model-ready {
+  position: absolute;
+  width: 180px;
+  margin: 0 auto;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000000;
+
+  border: 1px #000000 solid !important;
   font-size: 12px;
   text-align: left;
 
