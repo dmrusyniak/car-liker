@@ -71,8 +71,6 @@ function IndexPage(props) {
     return result
   }
 
-  console.log("search function result:", search("A", ogMakes))
-
   function makeAlfa(el) {
     setMake(el)
     testRef.current.value = el
@@ -97,6 +95,13 @@ function IndexPage(props) {
     if (event.target.value === "" || event.target.value === " ") {
       setMakes(ogMakes)
     }
+    if (!event.target.value.replace(/\s/g, "").length) {
+      setMakes(ogMakes)
+      console.log(
+        "string only contains whitespace (ie. spaces, tabs or line breaks)"
+      )
+    }
+
     if (ogMakes.includes(event.target.value)) {
       makeAlfa(event.target.value)
       setMakes(ogMakes)
