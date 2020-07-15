@@ -61,6 +61,18 @@ function IndexPage(props) {
     setMakeMenu(true)
   }
 
+  function search(el, array) {
+    let result = []
+    for (let i = 0; i < array.length; i++) {
+      if (el === array[i].substring(0, el.length)) {
+        result.push(array[i])
+      }
+    }
+    return result
+  }
+
+  console.log("search function result:", search("A", ogMakes))
+
   function makeAlfa(el) {
     setMake(el)
     testRef.current.value = el
@@ -78,9 +90,9 @@ function IndexPage(props) {
     console.log("event.target.value: ", event.target.value)
     console.log(
       "What I'm about to set makes to: ",
-      ogMakes.filter(word => word[0] === event.target.value[0])
+      search(event.target.value, ogMakes)
     )
-    setMakes(ogMakes.filter(word => word[0] === event.target.value[0]))
+    setMakes(search(event.target.value, ogMakes))
     console.log("ok I set it officially: ", makes)
     if (event.target.value === "" || event.target.value === " ") {
       setMakes(ogMakes)
