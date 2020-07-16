@@ -52,7 +52,7 @@ function IndexPage(props) {
   const [make, setMake] = useState("MAKE")
   const [makeMenu, setMakeMenu] = useState(false)
 
-  const [models, setModels] = useState(ogMakes)
+  const [models, setModels] = useState(null)
   const [model, setModel] = useState("MODEL")
   const [modelMenu, setModelMenu] = useState(false)
 
@@ -136,32 +136,37 @@ function IndexPage(props) {
   function handleModelChange(event) {
     event.preventDefault()
     event.target.value = event.target.value.toUpperCase()
-    setModels(ogModels[make].models)
-    setModelMenu(true)
-    setModel(event.target.value)
-    console.log("inputchange")
-    console.log("event.target.value: ", event.target.value)
-    console.log(
-      "What I'm about to set makes to: ",
-      search(event.target.value, ogModels[make].models)
-    )
-    setModels(search(event.target.value, ogModels[make].models))
-    console.log("ok I set it officially: ", models)
-    if (event.target.value === "" || event.target.value === " ") {
-      setModels(ogModels[make].models)
-    }
-    if (!event.target.value.replace(/\s/g, "").length) {
-      setModels(ogModels[make].models)
-      console.log(
-        "string only contains whitespace (ie. spaces, tabs or line breaks)"
-      )
-    }
 
-    if (ogModels[make].models.includes(event.target.value)) {
-      makeBrera(event.target.value)
-      setModels([make].models)
+    if (ogModels[make]) {
+      setModels(ogModels[make].models)
+
+      setModelMenu(true)
+      setModel(event.target.value)
+      console.log("inputchange")
+      console.log("event.target.value: ", event.target.value)
+
+      setModels(search(event.target.value, ogModels[make].models))
+
+      console.log("ok I set MODELS officially: ", models)
+      if (event.target.value === "" || event.target.value === " ") {
+        setModels(ogModels[make].models)
+      }
+      if (!event.target.value.replace(/\s/g, "").length) {
+        setModels(ogModels[make].models)
+        console.log(
+          "string only contains whitespace (ie. spaces, tabs or line breaks)"
+        )
+      }
+
+      if (ogModels[make].models.includes(event.target.value)) {
+        makeBrera(event.target.value)
+        setModels([make].models)
+      }
     }
   }
+
+  function joke() {}
+  console.log("MAKE: ", make)
 
   function handleMakeSubmit() {
     if (ogMakes.includes(make)) {
@@ -228,6 +233,7 @@ function IndexPage(props) {
                 placeholder="MODEL"
                 onChange={handleModelChange}
                 ref={testRef2}
+                disabled={ogModels[make] ? "" : "disabled"}
                 className="input"
               ></input>
             </form>
@@ -264,6 +270,7 @@ function IndexPage(props) {
       </div>
       <div></div>
       {/* <div className="featured-divider"></div> */}
+      {models}
     </Layout>
   )
 }
