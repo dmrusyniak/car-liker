@@ -26,9 +26,9 @@ function IndexPage(props) {
           setMakeMenu(false)
           setMakes(ogMakes)
 
-          // if (testRef.current.value) {
-          //   testRef.current.value = ""
-          // }
+          if (!search(testRef.current.value, ogMakes).length) {
+            testRef.current.value = ""
+          }
         }
       }
 
@@ -47,6 +47,7 @@ function IndexPage(props) {
   const testRef2 = useRef()
   const makeRef = useRef()
   useOutsideAlerter(wrapperRef)
+  useOutsideAlerterModels(wrapperRef2)
 
   const [makes, setMakes] = useState(ogMakes)
   const [make, setMake] = useState("MAKE")
@@ -62,15 +63,19 @@ function IndexPage(props) {
     setMakes(ogMakes)
     // testRef.current.value = ""
     if (testRef.current.value) {
-      setMakes(makes.filter(word => word[0] === testRef.current.value[0]))
+      setMakes(search(testRef.current.value, ogMakes))
     }
+    // if (testRef2.current.value) {
+    //   testRef2.current.value = ""
+    //   setModel("MODEL")
+    // }
     setMakeMenu(true)
   }
 
   function openModel() {
     // setMake("")
     if (ogModels[make]) {
-      setModels(ogModels[make].models)
+      setModels(search(testRef2.current.value, ogModels[make].models))
       setModelMenu(true)
     }
     // testRef.current.value = ""
@@ -89,6 +94,40 @@ function IndexPage(props) {
     return result
   }
 
+  function useOutsideAlerterModels(ref) {
+    useEffect(() => {
+      /**
+       * close if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setModelMenu(false)
+          setModels(null)
+          console.log(ogModels)
+          console.log(make)
+          if (ogModels[testRef.current.value]) {
+            if (
+              search(
+                testRef2.current.value,
+                ogModels[testRef.current.value].models
+              ).length < 1
+            ) {
+              testRef2.current.value = ""
+              setModel("MODEL")
+            }
+          }
+        }
+      }
+
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside)
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside)
+      }
+    }, [ref])
+  }
+
   function makeAlfa(el) {
     setMake(el)
     testRef.current.value = el
@@ -100,7 +139,7 @@ function IndexPage(props) {
     setModel(el)
     testRef2.current.value = el
     setModelMenu(false)
-    setModels(ogMakes)
+    setModels(ogModels[make].models)
   }
 
   function handleInputChange(event) {
@@ -131,6 +170,10 @@ function IndexPage(props) {
       makeAlfa(event.target.value)
       setMakes(ogMakes)
     }
+    if (testRef2.current.value) {
+      testRef2.current.value = ""
+      setModel("MODEL")
+    }
   }
 
   function handleModelChange(event) {
@@ -141,7 +184,7 @@ function IndexPage(props) {
       setModels(ogModels[make].models)
 
       setModelMenu(true)
-      setModel(event.target.value)
+      // setModel(event.target.value)
       console.log("inputchange")
       console.log("event.target.value: ", event.target.value)
 
@@ -224,6 +267,7 @@ function IndexPage(props) {
           </div>
         </div>
         <div
+          ref={wrapperRef2}
           className={make === "MAKE" ? "search-model" : "search-model-ready"}
         >
           <div onClick={openModel} className="model-flex">
